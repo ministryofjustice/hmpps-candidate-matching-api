@@ -18,6 +18,20 @@ spring:
       test:
         - "stdout"
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${api.base.url.oauth}/.well-known/jwks.json
+        issuer:
+          name:
+            uri: ${api.base.url.oauth}/auth/issuer
+            jwk-set-uri: ${api.base.url.oauth}/.well-known/jwks.json
+        provider:
+          hmpps-auth:
+            token-uri: ${api.base.url.oauth}//auth/oauth/token
+
+
 server:
   port: 8080
   servlet:
