@@ -22,6 +22,18 @@ testing {
     val test by getting(JvmTestSuite::class) {
       useJUnitJupiter()
     }
+    val integrationTest by getting(JvmTestSuite::class) {
+      useJUnitJupiter()
+      dependencies {
+        implementation(project())
+      }
+      sourceSets["main"].apply {
+        kotlin.srcDir("${layout.buildDirectory}/src/main/kotlin")
+      }
+      sourceSets["integrationTest"].apply {
+        kotlin.srcDir("${layout.buildDirectory}/src/integrationTest/kotlin")
+      }
+    }
   }
 }
 
@@ -62,12 +74,17 @@ dependencies {
 kotlin {
   jvmToolchain(21)
 }
-
+kotlin {
+  sourceSets["main"].apply {
+    kotlin.srcDir("${layout.buildDirectory}/generated/src/main/kotlin")
+  }
+}
 tasks {
   withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     kotlinOptions {
       jvmTarget = "21"
     }
+
     named("check") {
       dependsOn(testing.suites.named("integrationTest"))
     }
