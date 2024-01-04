@@ -4,7 +4,6 @@ plugins {
   id("uk.gov.justice.hmpps.gradle-spring-boot") version "5.10.1"
   kotlin("plugin.spring") version "1.9.21"
   kotlin("plugin.jpa") version "1.9.21"
-  kotlin("plugin.lombok") version "1.9.21"
   id("name.remal.integration-tests") version "4.0.2"
   id("jvm-test-suite")
 }

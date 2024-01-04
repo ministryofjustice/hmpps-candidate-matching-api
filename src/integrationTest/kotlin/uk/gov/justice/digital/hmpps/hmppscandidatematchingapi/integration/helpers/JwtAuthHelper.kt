@@ -1,7 +1,7 @@
 package uk.gov.justice.digital.hmpps.hmppscandidatematchingapi.integration.helpers
 
 import io.jsonwebtoken.Jwts
-import io.jsonwebtoken.SignatureAlgorithm
+import io.jsonwebtoken.Jwts.SIG.RS256
 import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpHeaders
 import org.springframework.security.oauth2.jwt.JwtDecoder
@@ -16,7 +16,7 @@ import java.util.UUID
 
 @Component
 class JwtAuthHelper() {
-  private val keyPair: KeyPair
+  val keyPair: KeyPair
 
   init {
     val gen = KeyPairGenerator.getInstance("RSA")
@@ -69,11 +69,11 @@ class JwtAuthHelper() {
       .also { scope?.let { scope -> it["scope"] = scope } }
       .let {
         Jwts.builder()
-          .setId(jwtId)
-          .setSubject(subject)
-          .addClaims(it.toMap())
-          .setExpiration(Date(System.currentTimeMillis() + expiryTime.toMillis()))
-          .signWith(SignatureAlgorithm.RS256, keyPair.private)
+          .id(jwtId)
+          .subject(subject)
+          .claims(it.toMap())
+          .expiration(Date(System.currentTimeMillis() + expiryTime.toMillis()))
+          .signWith(keyPair.private, RS256)
           .compact()
       }
 }
