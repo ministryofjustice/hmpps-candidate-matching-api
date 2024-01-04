@@ -1,8 +1,11 @@
+
+
 plugins {
   id("uk.gov.justice.hmpps.gradle-spring-boot") version "5.10.1"
   kotlin("plugin.spring") version "1.9.21"
   kotlin("plugin.jpa") version "1.9.21"
   kotlin("plugin.lombok") version "1.9.21"
+  id("name.remal.integration-tests") version "4.0.2"
   id("jvm-test-suite")
 }
 
@@ -12,6 +15,14 @@ configurations {
     exclude(module = "log4j")
   }
   testImplementation { exclude(group = "org.junit.vintage") }
+}
+
+testing {
+  suites {
+    val test by getting(JvmTestSuite::class) {
+      useJUnitJupiter()
+    }
+  }
 }
 
 dependencies {
@@ -57,20 +68,21 @@ tasks {
     kotlinOptions {
       jvmTarget = "21"
     }
-  }
-  test {
-    useJUnitPlatform {
-      exclude("**/integration/health/*")
+    named("check") {
+      dependsOn(testing.suites.named("integrationTest"))
     }
-    minHeapSize = "128m"
-    maxHeapSize = "2048m"
-  }
-
-  register<Test>("testIntegration") {
-    useJUnitPlatform {
-      include("**/integration/health/*")
+    named("compileIntegrationTestKotlin") {
+      dependsOn(named("copyAgent"))
     }
-    minHeapSize = "128m"
-    maxHeapSize = "2048m"
+    named("assemble") {
+      // `assemble` task assembles the classes and dependencies into a fat jar
+      // Beforehand we need to remove the plain jar and test-fixtures jars if they exist
+      doFirst {
+        delete(
+          fileTree(project.layout.buildDirectory.get())
+            .include("libs/*-plain.jar")
+        )
+      }
+    }
   }
 }

@@ -7,7 +7,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.http.HttpHeaders
 import org.springframework.test.context.ActiveProfiles
 import uk.gov.justice.digital.hmpps.hmppscandidatematchingapi.HmppsCandidateMatchingApi
-import uk.gov.justice.digital.hmpps.hmppscandidatematchingapi.helpers.JwtAuthHelper
+import uk.gov.justice.digital.hmpps.hmppscandidatematchingapi.integration.helpers.JwtAuthHelper
 
 @SpringBootTest(
   webEnvironment = RANDOM_PORT,
