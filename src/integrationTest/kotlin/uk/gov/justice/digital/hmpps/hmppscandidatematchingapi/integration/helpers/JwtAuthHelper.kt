@@ -16,7 +16,7 @@ import java.util.UUID
 
 @Component
 class JwtAuthHelper() {
-  val keyPair: KeyPair
+  lateinit var keyPair: KeyPair
 
   init {
     val gen = KeyPairGenerator.getInstance("RSA")
