@@ -1,6 +1,7 @@
 server:
   shutdown: immediate
-
+build:
+  version=${project.version}
 management.endpoint:
   health.cache.time-to-live: 0
   info.cache.time-to-live: 0
@@ -23,3 +24,12 @@ spring:
     url: 'jdbc:h2:mem:candidate-matching;'
     username: create_vary
     password: dummy
+
+  flyway:
+    initOnMigrate: true
+    baselineOnMigrate: true
+    validateMigrationNaming: true
+    enabled: true
+    url: jdbc:postgresql://localhost:5432/candidate-matching?sslmode=prefer
+    user: candidate-matching
+    password: candidate-matching

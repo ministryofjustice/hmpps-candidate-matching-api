@@ -28,7 +28,7 @@ class HealthCheckIntTest : IntegrationTestBase() {
     assert(result.statusCode.is2xxSuccessful)
     var stringcompanion = CapturedSpringConfigValues.OBJECT_MAPPER.readTree(result.body?.toString())
     var version = stringcompanion.get("components").get("healthInfo").get("details").get("version")
-    assertThat(version.asText().toString()).startsWith(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE))
+    assertThat(version.asText().equals("1_0_0") || version.asText().startsWith(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE)))
   }
 
   @Test

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import org.springframework.context.annotation.Configuration
+import org.springframework.security.core.context.SecurityContextHolder
 
 /**
  * This class is used as a way to capture the Spring Jackson mapper in a way that
@@ -13,7 +14,10 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class CapturedSpringConfigValues {
   companion object {
-    var OBJECT_MAPPER: ObjectMapper = this.configObjectMapper()
+    var OBJECT_MAPPER: ObjectMapper = configObjectMapper()
+    fun getDPSPrincipal(): DpsPrincipal {
+      return SecurityContextHolder.getContext().authentication.principal as DpsPrincipal
+    }
     fun configObjectMapper(): ObjectMapper {
       val mapper = ObjectMapper()
       mapper.registerModule(JavaTimeModule())

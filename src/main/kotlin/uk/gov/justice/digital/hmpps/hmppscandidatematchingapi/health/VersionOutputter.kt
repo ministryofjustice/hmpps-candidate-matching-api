@@ -8,7 +8,7 @@ import org.springframework.context.event.EventListener
 
 @Configuration
 class VersionOutputter(buildProperties: BuildProperties) {
-  private val version = buildProperties.version
+  private val version = "test"
 
   @EventListener(ApplicationReadyEvent::class)
   fun logVersionOnStartup() {
