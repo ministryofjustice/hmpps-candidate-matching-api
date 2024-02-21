@@ -29,6 +29,6 @@ spring:
     baselineOnMigrate: true
     validateMigrationNaming: true
     enabled: true
-    url: jdbc:postgresql://localhost:5432/candidate-matching?sslmode=prefer
-    user: candidate-matching
-    password: candidate-matching
+    url: ${spring.datasource.url}
+    user: create_vary
+    password: dummy
